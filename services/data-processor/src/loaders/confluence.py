@@ -1,10 +1,10 @@
 from collections import namedtuple
 import os
-import requests
 from loaders.raw_readers.confluence import ConfluenceReader
 from atlassian import Confluence
 
 from db.types import Integration
+from security import safe_requests
 
 
 def fetch_confluence_documents(integration: Integration):
@@ -14,7 +14,7 @@ def fetch_confluence_documents(integration: Integration):
     total_documents = []
     if integration_type == "oauth":
         client_id = os.getenv("ATLASSIAN_CLIENT_ID")
-        response = requests.get(
+        response = safe_requests.get(
             "https://api.atlassian.com/oauth/token/accessible-resources",
             headers={"Authorization": f"Bearer {access_token}"},
         )
