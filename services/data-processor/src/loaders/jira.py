@@ -1,6 +1,6 @@
-import requests
 from llama_index.readers.jira import JiraReader
 from db.types import Integration
+from security import safe_requests
 
 
 def fetch_jira_documents(integration: Integration):
@@ -8,7 +8,7 @@ def fetch_jira_documents(integration: Integration):
     total_documents = []
     if integration_type == "oauth":
         access_token = integration.credentials["access_token"]
-        response = requests.get(
+        response = safe_requests.get(
             "https://api.atlassian.com/oauth/token/accessible-resources",
             headers={"Authorization": f"Bearer {access_token}"},
         )
