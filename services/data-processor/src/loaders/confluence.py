@@ -17,7 +17,7 @@ def fetch_confluence_documents(integration: Integration):
         response = requests.get(
             "https://api.atlassian.com/oauth/token/accessible-resources",
             headers={"Authorization": f"Bearer {access_token}"},
-        )
+        timeout=60)
         cloud_instances = response.json()
         for cloud_instance in cloud_instances:
             cloud_id = cloud_instance["id"]
